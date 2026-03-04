@@ -1,0 +1,11 @@
+{
+  "filterTests": true,
+  "ignoreCoverage": true,
+  "usedEquality": "ASSERT_J_DEEP",
+  "projectPath": "C:/Software Engineering/pdfbox",
+  "methodsJson": "rtf/methods.json",
+  "dataPath": "rtf/data",
+  "testBasePath": "rtf/generated-tests/src/test/java",
+  "productionCommand": "'{{config_dir}}/run_pdfbox.sh' {{agent_call}}",
+  "additionalInstrumentedPackages": []
+}

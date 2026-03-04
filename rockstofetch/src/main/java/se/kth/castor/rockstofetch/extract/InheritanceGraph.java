@@ -33,10 +33,16 @@ public class InheritanceGraph {
   }
 
   public void addType(CtType<?> type) {
+    if (type == null) {
+      return;
+    }
     addTypeImpl(type);
   }
 
   private FastHashTypeWrapper addTypeImpl(CtType<?> type) {
+    if (type == null) {
+      return null;
+    }
     FastHashTypeWrapper wrapper = FastHashTypeWrapper.of(type);
     if (graph.nodes().contains(wrapper)) {
       return wrapper;
@@ -44,10 +50,16 @@ public class InheritanceGraph {
 
     graph.addNode(wrapper);
     if (type.getSuperclass() != null) {
-      graph.putEdge(wrapper, addTypeImpl(type.getSuperclass().getTypeDeclaration()));
+      FastHashTypeWrapper superWrapper = addTypeImpl(type.getSuperclass().getTypeDeclaration());
+      if (superWrapper != null) {
+        graph.putEdge(wrapper, superWrapper);
+      }
     }
     for (CtTypeReference<?> superInterface : type.getSuperInterfaces()) {
-      graph.putEdge(wrapper, addTypeImpl(superInterface.getTypeDeclaration()));
+      FastHashTypeWrapper interfaceWrapper = addTypeImpl(superInterface.getTypeDeclaration());
+      if (interfaceWrapper != null) {
+        graph.putEdge(wrapper, interfaceWrapper);
+      }
     }
 
     return wrapper;

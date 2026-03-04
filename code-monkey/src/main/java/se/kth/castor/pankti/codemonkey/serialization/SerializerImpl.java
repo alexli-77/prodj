@@ -662,18 +662,17 @@ final class SerializerImpl {
       throw new RuntimeException("Enum instance for " + object + " not found!");
     }
     CtEnumValue<?> enumValue = useEnumConstant.type().getEnumValue(myName);
-    return createMyVariable(
-        ((CtFieldRead) factory.createFieldRead()).setVariable(enumValue.getReference())
-    );
+    CtFieldRead<?> fieldRead = factory.createFieldRead();
+    fieldRead.setVariable(enumValue.getReference());
+    return createMyVariable(fieldRead);
   }
 
   private CtStatement handleUseStaticFieldInstance(
       ActionUseStaticFieldInstance useStaticFieldInstance
   ) {
-    return createMyVariable(
-        ((CtFieldRead) factory.createFieldRead())
-            .setVariable(useStaticFieldInstance.field().getReference())
-    );
+    CtFieldRead<?> fieldRead = factory.createFieldRead();
+    fieldRead.setVariable(useStaticFieldInstance.field().getReference());
+    return createMyVariable(fieldRead);
   }
 
   private CtInvocation<?> handleCallSetter(

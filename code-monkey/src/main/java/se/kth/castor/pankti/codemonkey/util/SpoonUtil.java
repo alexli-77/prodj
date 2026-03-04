@@ -176,7 +176,15 @@ public class SpoonUtil {
     CtConstructor<?> called = (CtConstructor<?>) invocation.getExecutable()
         .getExecutableDeclaration();
 
+    if (called == null) {
+      return Optional.empty();
+    }
+
     if (invocation.getArguments().size() != 1) {
+      return Optional.empty();
+    }
+
+    if (called.getParameters().size() != 1) {
       return Optional.empty();
     }
 

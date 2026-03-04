@@ -18,9 +18,7 @@ import se.kth.castor.pankti.codemonkey.construction.solving.MutationFixmeConstru
 import se.kth.castor.pankti.codemonkey.construction.solving.MutationMockObject;
 import se.kth.castor.pankti.codemonkey.construction.solving.MutationSetField;
 import se.kth.castor.pankti.codemonkey.construction.solving.MutationStrategy;
-import se.kth.castor.pankti.codemonkey.construction.solving.MutationUseEnumConstant;
 import se.kth.castor.pankti.codemonkey.construction.solving.MutationUseStandardCharset;
-import se.kth.castor.pankti.codemonkey.construction.solving.MutationUseStaticFieldInstance;
 import se.kth.castor.pankti.codemonkey.construction.solving.SolvingState;
 import se.kth.castor.pankti.codemonkey.serialization.Serializer;
 import se.kth.castor.pankti.codemonkey.serialization.Serializer.Serialized;
@@ -75,8 +73,6 @@ public class RockySerializer {
         new MutationCallSetter(),
         new MutationCallSimpleFactoryMethod(),
         new MutationSetField(),
-        new MutationUseEnumConstant(),
-        new MutationUseStaticFieldInstance(),
         new MutationUseStandardCharset()
     ));
     if (!mutationTraceTypes.isEmpty()) {
@@ -121,8 +117,8 @@ public class RockySerializer {
       try {
         ctType = factory.Type()
             .get(Class.forName(name, false, factory.getEnvironment().getInputClassLoader()));
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
+      } catch (ClassNotFoundException | LinkageError e) {
+        return false;
       }
     }
     Objects.requireNonNull(ctType);

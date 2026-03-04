@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -121,21 +122,17 @@ public class Main {
 
     System.err.println(heading("Figuring out own data"));
     Path agentJar = Path.of(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-    String agentCommand = "'-javaagent:%s=%s'".formatted(
-        agentJar.toAbsolutePath().toString(),
-        methodsJsonPath.toAbsolutePath().toString()
-    );
+    String agentCommand = formatAgentCommand(agentJar, methodsJsonPath);
 
     System.err.println(heading("Running production workload..."));
     System.out.println("Setting workdir to project directory: " + projectPath);
     Instant productionRunStart = Instant.now();
     ProcessBuilder processBuilder = new ProcessBuilder(
-        "bash",
-        "-m",
-        "-c",
+      shellCommand(
         config.productionCommand()
-            .replace("{{agent_call}}", agentCommand)
-            .replace("{{config_dir}}", configPath.getParent().toAbsolutePath().toString())
+          .replace("{{agent_call}}", agentCommand)
+          .replace("{{config_dir}}", configPath.getParent().toAbsolutePath().toString())
+      )
     )
         .directory(projectPath.toFile());
     if (arguments.hideProgramOutput()) {
@@ -270,12 +267,29 @@ public class Main {
         dataPath,
         projectPath,
         true,
-        "bash",
-        "-m",
-        "-c",
-        productionCommand
-            .replace("{{config_dir}}", configPath.getParent().toAbsolutePath().toString())
+        shellCommand(
+            productionCommand
+                .replace("{{config_dir}}", configPath.getParent().toAbsolutePath().toString())
+        ).toArray(String[]::new)
     );
+  }
+
+  private static List<String> shellCommand(String command) {
+    if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("win")) {
+      return List.of("cmd", "/c", command);
+    }
+    return List.of("bash", "-m", "-c", command);
+  }
+
+  private static String formatAgentCommand(Path agentJar, Path methodsJsonPath) {
+    String argument = "-javaagent:%s=%s".formatted(
+        agentJar.toAbsolutePath().toString(),
+        methodsJsonPath.toAbsolutePath().toString()
+    );
+    if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("win")) {
+      return "\"%s\"".formatted(argument);
+    }
+    return "'%s'".formatted(argument);
   }
 
   private static void printCoveredMethods(Collection<RecordedMethod> coveredMethods) {
