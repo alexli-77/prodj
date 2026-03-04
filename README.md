@@ -70,4 +70,4 @@ Data and new tests will be generated in the Pdfbox.
 
 Set-Location 'C:\your_path\pdfbox'; mvn -Dtest=*RockyTest -Dsurefire.failIfNoSpecifiedTests=false test
 
-![Generated tests](prodj\rockstofetch\src\test\resources\Capture.png)
+![Capture](rockstofetch/src/test/resources/Capture.png)
