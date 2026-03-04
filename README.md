@@ -25,3 +25,46 @@ The easiest way to get an executable version of `ProDJ` is to use the provided
 1. Enter a dev-shell using `nix develop`
 2. Run `java -jar rockstofetch/target/rockstofetch.jar --statistics <config file>`.
    You can find example config files in `rockstofetch/src/test/resources/`.
+
+_____________________________________________
+
+Updates on 20260303
+
+Environment:
+
+Maven : Apache Maven 3.9.12 
+Java : openjdk version "17.0.18"
+Windows X64
+
+##How to run this project?
+
+Step 1:
+
+Compile and package : mvn -DskipTests package
+
+Step 2:
+
+Put the prodj\rockstofetch\src\test\resources\CodeMonkey.pdf to the root path of the Pdfbox
+
+Step 3:
+
+git clone https://github.com/apache/pdfbox.git -b trunk
+Compile and package Pdfbox.
+
+Step 4:
+
+For windows: java -jar rockstofetch/target/rockstofetch.jar --statistics rockstofetch/src/test/resources/pdfbox_windows.json
+
+For Mac: ...
+
+For Linux: ...
+
+## What will happen?
+
+Data and new tests will be generated in the Pdfbox. 
+
+## How the run the generated tests?
+
+Set-Location 'C:\your_path\pdfbox'; mvn -Dtest=*RockyTest -Dsurefire.failIfNoSpecifiedTests=false test
+
+[Generated tests](prodj\rockstofetch\src\test\resources\Capture.png)
