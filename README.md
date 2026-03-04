@@ -33,7 +33,9 @@ Updates on 20260303
 Environment:
 
 Maven : Apache Maven 3.9.12 
+
 Java : openjdk version "17.0.18"
+
 Windows X64
 
 ##How to run this project?
@@ -49,6 +51,7 @@ Put the prodj\rockstofetch\src\test\resources\CodeMonkey.pdf to the root path of
 Step 3:
 
 git clone https://github.com/apache/pdfbox.git -b trunk
+
 Compile and package Pdfbox.
 
 Step 4:
@@ -67,4 +70,4 @@ Data and new tests will be generated in the Pdfbox.
 
 Set-Location 'C:\your_path\pdfbox'; mvn -Dtest=*RockyTest -Dsurefire.failIfNoSpecifiedTests=false test
 
-[Generated tests](prodj\rockstofetch\src\test\resources\Capture.png)
+![Generated tests](prodj\rockstofetch\src\test\resources\Capture.png)
