@@ -85,19 +85,23 @@ Hugging Face: [CodeT5-base](https://huggingface.co/Salesforce/codet5-base)
 So CodeT5-base contains approximately 220 million parameters.Typical architecture configuration:
 
 - Encoder–Decoder Transformer
+
 - 12 encoder layers
+
 - 12 decoder layers
+  
 - Hidden size ≈ 768
+  
 - Attention heads ≈ 12
 
 This configuration is very similar to T5-base.
 
 ## test the LLM
 
-Environment: python (see the rockstofetch/test/resourses/LLM/requirements.txt) + CodeT5
+Environment: python (see the rockstofetch/test/resourses/LLM/requirements.txt) + CodeT5.
 
-Get LLM: run test_codet5.py (see the rockstofetch/test/resourses/LLM/test_code5.py)
+Get LLM: run test_codet5.py (see the rockstofetch/test/resourses/LLM/test_code5.py).
 
-Run LLM Service: run t5_service.py (see the rockstofetch/test/resourses/LLM/t5_service.py)
+Run LLM Service: run t5_service.py (see the rockstofetch/test/resourses/LLM/t5_service.py).
 
 
